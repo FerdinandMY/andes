@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
                         <div class="site-branding d-flex align-items-center">
-                            <a class="d-block" href="index.html" rel="home">
+                            <a class="d-block" href="index.php" rel="home">
                                 <h2>ANDES</h2>
                             </a>
                         </div><!-- .site-branding -->
@@ -263,8 +263,6 @@
             </div><!-- .row -->
         </div><!-- .container -->
     </div><!-- .home-page-icon-boxes -->
-
-
 
     <div class="home-page-welcome">
         <div class="container">
@@ -616,10 +614,10 @@
                 </div><!-- .col -->
 
                 <div class="col-12 col-lg-7">
-                    <form class="contact-form" action="" method="post">
-                        <input type="text" name="name" id="name" placeholder="Name">
-                        <input type="email" name="email" id="email" placeholder="Email">
-                        <textarea rows="15" name="message" name="message" cols="6" placeholder="Messages"></textarea>
+                    <form class="contact-form" action="BD/andesBD" method="POST">
+                        <input type="text" name="nameC" id="nameC" placeholder="Name">
+                        <input type="email" name="emailC" id="emailC" placeholder="Email">
+                        <textarea rows="15" name="messageC" name="messageC" cols="6" placeholder="Messages"></textarea>
 
                         <span>
                             <input class="btn gradient-bg" type="submit" value="Envoyer">
@@ -631,11 +629,13 @@
         </div><!-- .container -->
     </div>
 
+    <!-- <a href="BD/andesBD.php"> creation</a> -->
     <footer class="site-footer">
 
 
         <div class="footer-bar">
             <div class="container">
+
                 <div class="row">
                     <div class="col-12">
                         <p class="m-0">
@@ -658,7 +658,6 @@
     <script type='text/javascript' src='js/custom.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
    
 </body>
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -53,7 +52,7 @@
         </div><!-- .top-header-bar -->
     </header><!-- .site-header --> <br>
 
-    <div class="container">
+    <div class="container" style="min-height: 464px;">
         <h4 class="text-center">Messages / Liste de messages</h4> <br>
 
         <?php
@@ -71,7 +70,8 @@
         $stmt = $conn->prepare("SELECT * FROM commentaire");
         $stmt->execute();
         ?>
-        <table class="table">
+        <table class="table table-striped table-sm" 
+            cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th scope="row">Nom</th>
@@ -82,20 +82,20 @@
 
             <?php
             // $result = $stmt->setFetchMode(PDO::FETCH_OBJ); 
-            while ($lignes = $stmt -> fetch(PDO::FETCH_OBJ)) // On fait une boucle pour récupérer les résultats, le FETCH_OBJ peut être considéré comme le array.
+            while ($lignes = $stmt->fetch(PDO::FETCH_OBJ)) // On fait une boucle pour récupérer les résultats, le FETCH_OBJ peut être considéré comme le array.
 
             {
                 $nameC = $lignes->nameC; // récupération de la valeur contenu dans la ligne 'nom'
                 $emailC = $lignes->emailC;
                 $messageC = $lignes->messageC;
             ?>
-            <tr>
-                <td> <?php echo $nameC ?></td>
-                <td> <?php echo $emailC ?></td>
-                <td> <?php echo $messageC ?></td>
-            </tr>
+                <tr>
+                    <td> <?php echo $nameC ?></td>
+                    <td> <?php echo $emailC ?></td>
+                    <td> <?php echo $messageC ?></td>
+                </tr>
             <?php
-                }
+            }
             ?>
         </table>
     </div>

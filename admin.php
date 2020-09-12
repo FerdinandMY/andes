@@ -100,7 +100,6 @@
         </table>
     </div>
 
-    <br>
 
     <!-- <a href="BD/andesBD.php"> creation</a> -->
     <footer class="site-footer">

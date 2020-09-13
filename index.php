@@ -63,7 +63,7 @@
 
                         <nav class="site-navigation d-flex justify-content-end align-items-center">
                             <ul class="d-flex flex-column flex-lg-row justify-content-lg-end align-content-center">
-                                <li class="current-menu-item"><a href="index.html">Accueil</a></li>
+                                <li class="current-menu-item"><a href="#">Accueil</a></li>
                                 <li><a href="#NousDécouvrir">Nous Découvrir</a></li>
                                 <li><a href="#NotreMission">Notre Mission</a></li>
                                 <li><a href="#NotreExpertise">Notre Expertise</a></li>
@@ -614,7 +614,7 @@
                 </div><!-- .col -->
 
                 <div class="col-12 col-lg-7">
-                    <form class="contact-form" action="BD/andesBD" method="POST">
+                    <form class="contact-form" action="BD/andesBD.php" method="POST">
                         <input type="text" name="nameC" id="nameC" placeholder="Name">
                         <input type="email" name="emailC" id="emailC" placeholder="Email">
                         <textarea rows="15" name="messageC" name="messageC" cols="6" placeholder="Messages"></textarea>

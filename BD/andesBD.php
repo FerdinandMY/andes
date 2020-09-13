@@ -18,7 +18,7 @@
             VALUES ('".$_POST["nameC"]."','".$_POST["emailC"]."','".$_POST["messageC"]."')";
             if ($conn->query($sql)) {
                 echo "<script type= 'text/javascript'>alert('New Record Inserted Successfully');</script>";
-                header("Location:http://127.0.0.1/andes");
+                header("Location:http://localhost:82/thecharity/andes/");
             }
             else{
                 echo "<script type= 'text/javascript'>alert('Data not successfully Inserted.');</script>";

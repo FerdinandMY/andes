@@ -1,3 +1,29 @@
+<?php 
+  // Database
+  include('BD/db.php');
+  
+  // Set session
+  session_start();
+  if(isset($_POST['records-limit'])){
+      $_SESSION['records-limit'] = $_POST['records-limit'];
+  }
+  
+  $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 5;
+  $page = (isset($_GET['page']) && is_numeric($_GET['page']) ) ? $_GET['page'] : 1;
+  $paginationStart = ($page - 1) * $limit;
+  $authors = $connection->query("SELECT * FROM commentaire LIMIT $paginationStart, $limit")->fetchAll();
+
+  // Get total records
+  $sql = $connection->query("SELECT count(id) AS id FROM commentaire")->fetchAll();
+  $allRecrods = $sql[0]['id'];
+  
+  // Calculate total pages
+  $totoalPages = ceil($allRecrods / $limit);
+
+  // Prev + Next
+  $prev = $page - 1;
+  $next = $page + 1;
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -34,6 +60,7 @@
             <div class="container">
                 <div class="row flex-wrap justify-content-center justify-content-lg-between align-items-lg-center">
                     <div class="col-12 col-lg-8 d-none d-md-flex flex-wrap justify-content-center justify-content-lg-start mb-3 mb-lg-0">
+                       
                         <div class="header-bar-email">
                             MAIL: <a href="#">adens@adens-ong.org</a>
                         </div><!-- .header-bar-email -->
@@ -44,6 +71,12 @@
                         <div class="header-bar-text">
                             <p>Localisation: Cameroun,Adamaoua</p>
                         </div>
+                        </div>
+                        <div class="col-12 col-lg-4 d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center">
+                        <div class="donate-btn">
+                            <a href="http://localhost:82/thecharity/andes/">Accueil</a>
+                        </div><!-- .donate-btn -->
+                    <!-- .col -->
                     </div><!-- .col -->
 
 
@@ -51,7 +84,20 @@
             </div><!-- .container -->
         </div><!-- .top-header-bar -->
     </header><!-- .site-header --> <br>
-
+    <div class="d-flex flex-row-reverse bd-highlight mb-3">
+            <form action="admin.php" method="post">
+                <select name="records-limit" id="records-limit" class="custom-select">
+                    <option disabled selected>Records Limit</option>
+                    <?php foreach([5,7,10,12] as $limit) : ?>
+                    <option
+                        <?php if(isset($_SESSION['records-limit']) && $_SESSION['records-limit'] == $limit) echo 'selected'; ?>
+                        value="<?= $limit; ?>">
+                        <?= $limit; ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </form>
+        </div>
     <div class="container" style="min-height: 464px;">
         <h4 class="text-center">Messages / Liste de messages</h4> <br>
 
@@ -79,25 +125,37 @@
                     <th scope="row">Message</th>
                 </tr>
             </thead>
-
-            <?php
-            // $result = $stmt->setFetchMode(PDO::FETCH_OBJ); 
-            while ($lignes = $stmt->fetch(PDO::FETCH_OBJ)) // On fait une boucle pour récupérer les résultats, le FETCH_OBJ peut être considéré comme le array.
-
-            {
-                $nameC = $lignes->nameC; // récupération de la valeur contenu dans la ligne 'nom'
-                $emailC = $lignes->emailC;
-                $messageC = $lignes->messageC;
-            ?>
+            <tbody>
+                <?php foreach($authors as $author): ?>
                 <tr>
-                    <td> <?php echo $nameC ?></td>
-                    <td> <?php echo $emailC ?></td>
-                    <td> <?php echo $messageC ?></td>
+                    <td><?php echo $author['nameC']; ?></td>
+                    <td><?php echo $author['emailC']; ?></td>
+                    <td><?php echo $author['messageC']; ?></td>
                 </tr>
-            <?php
-            }
-            ?>
+                <?php endforeach; ?>
+            </tbody>
+           
         </table>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
+                    <a class="page-link"
+                        href="<?php if($page <= 1){ echo '#'; } else { echo "?page=" . $prev; } ?>">Previous</a>
+                </li>
+
+                <?php for($i = 1; $i <= $totoalPages; $i++ ): ?>
+                <li class="page-item <?php if($page == $i) {echo 'active'; } ?>">
+                    <a class="page-link" href="admin.php?page=<?= $i; ?>"> <?= $i; ?> </a>
+                </li>
+                <?php endfor; ?>
+
+                <li class="page-item <?php if($page >= $totoalPages) { echo 'disabled'; } ?>">
+                    <a class="page-link"
+                        href="<?php if($page >= $totoalPages){ echo '#'; } else {echo "?page=". $next; } ?>">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
 
@@ -123,6 +181,7 @@
     </footer><!-- .site-footer -->
 
     <script type='text/javascript' src='js/jquery.js'></script>
+    
     <script type='text/javascript' src='js/jquery.collapsible.min.js'></script>
     <script type='text/javascript' src='js/swiper.min.js'></script>
     <script type='text/javascript' src='js/jquery.countdown.min.js'></script>
@@ -132,7 +191,14 @@
     <script type='text/javascript' src='js/custom.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#records-limit').change(function () {
+                $('form').submit();
+            })
+        });
+    </script>
 </body>
 
 </html>
